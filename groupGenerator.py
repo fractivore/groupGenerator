@@ -39,12 +39,19 @@ else:
     cyclicGroupModeON = False
 
 def createShuffledElement(n):
-
+    """This function creates a random permutation of the integers 0 through n-1."""
+    
     ourElement = [*range(n)]
     random.shuffle(ourElement)
     return tuple(ourElement)
 
 def unnamedIteratorFunction(mapping, inputTuple):
+    """This is the group operation used in this program.
+    
+        It takes in two permutation sets and returns a set
+        by assigning the integer at position n in inputTuple
+        to the position mapping[n]."""
+    
     outList = []
     inputList = list(inputTuple)
     for index in range(len(mapping)):
@@ -54,6 +61,8 @@ def unnamedIteratorFunction(mapping, inputTuple):
     return tuple(outList)
 
 def iterateTheIterator(originalList):
+    """Exponentiate the permutation originalList according to the group operation defined above."""
+    
     gencount = 0
     generations = []
     generations.append(originalList)
@@ -88,7 +97,7 @@ def jsonFileExists(jsonFilePath):
 
 def crossIterate(generator1, generator2, hopperSet, mainSet,
         jsonFilePath,iterationCount,maxIterations):
-    #recursive function to generate groups from 2 elements
+    """Recursive function to generate groups from 2 elements."""
     nextHopperSet = {}
     iterations = interationCount
     for element in hopperSet:
@@ -104,12 +113,13 @@ def crossIterate(generator1, generator2, hopperSet, mainSet,
             crossIterate(generator1, generator2, nextHopperSet, mainSet,jsonFile)
 
 class DynamicGroupDatabase:
-    #This class is used to simplify the in-program storage of
-    #group data from a json file, with included variables to store
-    #data that needs to be remembered through potentially multiple
-    #sessions of reading to and writing from the same json file.
-    #Data is stored in the json file as a dictionary to make it easy to
-    #store and access multiple variables.
+    """This class is used to simplify the in-program storage of group data from a json file.
+    
+    Variables are included to store
+    data that needs to be remembered through potentially multiple
+    sessions of reading to and writing from the same json file.
+    Data is stored in the json file as a dictionary to make it easy to
+    store and access multiple variables."""
 
     def __init__(self, jsonFileIn,
             desiredGenA, desiredGenB, maxIterations,
@@ -160,9 +170,11 @@ class DynamicGroupDatabase:
         self.maxIterations = maxIterations
 
     def crossIterate(self,hopperSet):
-    #Function to do the legwork of generating groups from two elements.
+    """Function to do the legwork of generating groups from two elements."""
+    
     #A class method is used here to make the persistence of the generators and
     #mainSet cleaner and easier to work with.
+    
         nextHopperSet = hopperSet
         while len(nextHopperSet) != 0 and self.currentIterations < self.maxIterations:
             #Initialize nextHopperSet to the empty set.
@@ -195,8 +207,7 @@ class DynamicGroupDatabase:
 
 class CyclicGroupDatabase:
 
-#This class is for a database of cyclic groups
-# that can be used as generating sets for groups
+"""This class is for a database of cyclic groups that can be used as generating sets for groups."""
 
     def __init__(self, jsonFile):
         #Check to see if named json file exists, if so import 
