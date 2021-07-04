@@ -22,7 +22,7 @@ def main():
     if "--maxIterations" in sys.argv:
         giveUp = int(sys.argv[sys.argv.index("--maxIterations") + 1])
     else:
-        giveUp = 1000
+        giveUp = 10000
 
     numberOfCycles = 1
 
@@ -33,13 +33,21 @@ def main():
 
     if "--genA" in sys.argv:
         rawInput = list(sys.argv[sys.argv.index("--genA") + 1])
+        #07/03/2021: added logic to parse multi-digit numbers in input list
         #The following is used to parse command-line input
         # to be more accepting of different ways of conveying
         # a list of ints:
         genA = []
-        for arg in rawInput:
-            if isInt(arg):
-                genA.append(int(arg))
+        ind = 0
+        while ind < len(rawInput):
+            if isInt(rawInput[ind]):
+                this_num = rawInput[ind]
+                ind += 1
+                while ind < len(rawInput) and isInt(rawInput[ind]):
+                    this_num += rawInput[ind]
+                    ind += 1
+                genA.append(int(this_num))
+            ind += 1
         print("chosen genA:", genA)
     else:
         genA = createShuffledElement(requestedArity)
@@ -48,14 +56,22 @@ def main():
     if "--genB" in sys.argv:
 
         rawInput = list(sys.argv[sys.argv.index("--genB") + 1])
+        #07/03/2021: added logic to parse multi-digit numbers in input list
         #The following is used to parse command-line input
         # to be more accepting of different ways of conveying
         # a list of ints:
         genB = []
-        for arg in rawInput:
-            if isInt(arg):
-                genB.append(int(arg))
-        print("chosen genB:", genB)
+        ind = 0
+        while ind < len(rawInput):
+            if isInt(rawInput[ind]):
+                this_num = rawInput[ind]
+                ind += 1
+                while ind < len(rawInput) and isInt(rawInput[ind]):
+                    this_num += rawInput[ind]
+                    ind += 1
+                genB.append(int(this_num))
+            ind += 1
+            print("chosen genB:", genB)
     else:
 
         genB = createShuffledElement(requestedArity)
@@ -109,6 +125,7 @@ def isInt(x):
     except:
         return False
     return True
+
 
 def createShuffledElement(n):
 
